@@ -1,0 +1,92 @@
+
+            /* Base styles for light theme */
+            body, .stApp {
+                background-color: #FFFFFF; /* A cleaner white background */
+                color: #111827; /* Dark grey text */
+            }
+            /* Ensure all standard text elements are dark */
+            div, p, label, span, li, .st-emotion-cache-1q8dd3e, .st-emotion-cache-1y4p8pa, .st-emotion-cache-16idsys p {
+                color: #111827 !important;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .block-container {
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+            /* Gradient header text */
+            h1 {
+                background: -webkit-linear-gradient(45deg, #38bdf8, #3b82f6, #60a5fa);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                font-weight: 900;
+                animation: fadeIn 1s ease-out;
+            }
+            h2 {
+                color: #0284c7 !important; /* sky-600 */
+            }
+            h3 {
+                color: #0ea5e9 !important; /* sky-500 */
+            }
+            /* Main container styling */
+            .st-emotion-cache-1r6slb0 { /* This targets st.container(border=True) */
+                background: #FFFFFF;
+                border: 1px solid #e5e7eb; /* gray-200 */
+                border-radius: 1rem;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            }
+            /* Expander styling */
+            .stExpander {
+                background-color: #F9FAFB; /* gray-50 */
+                border-radius: 10px;
+                border: 1px solid #d1d5db;
+            }
+            .stExpander p, .stExpander label, .stExpander .st-emotion-cache-1h9us25, .stExpander .st-emotion-cache-1kyxreq {
+                 color: #1f2937 !important;
+            }
+            
+            /* Input box styling for a dark appearance */
+            .stNumberInput input {
+                background-color: #374151 !important; /* gray-700 */
+                color: #F9FAFB !important; /* gray-50, for the text inside */
+                border: 1px solid #4B5563 !important; /* gray-600 for border */
+                border-radius: 0.5rem !important;
+            }
+
+            /* Button styling */
+            .stButton>button {
+                border-radius: 10px;
+                border: 1px solid #0ea5e9; /* sky-500 */
+                transition: all 0.3s ease-in-out;
+                background-color: #38bdf8; /* sky-400 */
+                color: #FFFFFF;
+            }
+            .stButton>button:hover {
+                transform: scale(1.03);
+                box-shadow: 0 0 25px rgba(56, 189, 248, 0.5);
+                background-color: #0ea5e9; /* sky-500 */
+            }
+            /* Metric box styling */
+            .stMetric {
+                background-color: #FFFFFF;
+                border-radius: 0.75rem;
+                padding: 1rem;
+                border: 1px solid #e5e7eb;
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+                transition: all 0.3s ease;
+            }
+            .stMetric:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            }
+            /* Sidebar styling (to hide it) */
+            .css-1d391kg {
+                display: none;
+            }
+            /* Fix text color in alert boxes (success, warning, info) */
+            .stAlert p {
+                 color: #111827 !important;
+            }
+            
