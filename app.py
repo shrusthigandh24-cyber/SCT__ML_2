@@ -1,9 +1,6 @@
 # -----------------------------------------------------------------
-# V9.0: "The Consultant" - UI Overhaul & Sidebar Controls
-# - Replaced "Neon Pulse" dark theme with a light "Corporate Clean" theme.
-# - Moved Radar Chart and Marketing Strategy functions to sidebar buttons.
-# - Used st.session_state to toggle visibility of advanced analysis.
-# - Replaced main page tabs with st.expander for a cleaner layout.
+# V9.1: "The Consultant" - UI Fix for Expander Labels
+# - Removed emojis from st.expander labels to fix a text rendering bug.
 # -----------------------------------------------------------------
 
 import streamlit as st
@@ -30,7 +27,7 @@ if 'show_radar' not in st.session_state:
 if 'show_strategy' not in st.session_state:
     st.session_state.show_strategy = False
 
-# --- NEW: V9.0 "Corporate Clean" Theme ---
+# --- V9.0 "Corporate Clean" Theme ---
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
@@ -113,7 +110,7 @@ with st.sidebar:
     show_corr = st.checkbox("Show Correlation Matrix", value=True)
     show_elbow = st.checkbox("Show Elbow Method Plot", value=True)
     
-    # --- NEW: Sidebar buttons for advanced analysis ---
+    # --- Sidebar buttons for advanced analysis ---
     st.markdown("---")
     st.header("4. Advanced Analysis")
     st.caption("Click to show/hide advanced visuals on the main page.")
@@ -124,7 +121,7 @@ with st.sidebar:
     if st.button("Marketing Strategies"):
         st.session_state.show_strategy = not st.session_state.show_strategy
 
-# --- Helper Functions (No change in logic, only plot templates) ---
+# --- Helper Functions ---
 @st.cache_data
 def generate_data(num, age, income, score, seed):
     np.random.seed(seed)
@@ -141,7 +138,7 @@ def create_radar_chart(df, features):
     fig = go.Figure()
     for i in summary_scaled.index:
         fig.add_trace(go.Scatterpolar(r=summary_scaled.loc[i].values, theta=summary_scaled.columns, fill='toself', name=f'Cluster {i}'))
-    fig.update_layout(polar=dict(radialaxis=dict(visible=True, range=[0, 1])), showlegend=True, template='plotly_white', title="Normalized Cluster Profile Comparison") # UI CHANGE
+    fig.update_layout(polar=dict(radialaxis=dict(visible=True, range=[0, 1])), showlegend=True, template='plotly_white', title="Normalized Cluster Profile Comparison")
     return fig
 
 def get_marketing_strategy(cluster_profile, income_range, score_range):
@@ -185,10 +182,10 @@ if show_summary:
 if show_corr and len(features_to_cluster) > 1:
     st.subheader("Feature Correlation Matrix")
     corr = df[features_to_cluster].corr()
-    fig_corr, ax_corr = plt.subplots(facecolor='#F0F2F6') # UI CHANGE
-    ax_corr.set_facecolor('#F0F2F6') # UI CHANGE
-    sns.heatmap(corr, annot=True, cmap='Blues', ax=ax_corr, cbar_kws={'label': 'Correlation'}) # UI CHANGE
-    ax_corr.tick_params(colors='black') # UI CHANGE
+    fig_corr, ax_corr = plt.subplots(facecolor='#F0F2F6')
+    ax_corr.set_facecolor('#F0F2F6')
+    sns.heatmap(corr, annot=True, cmap='Blues', ax=ax_corr, cbar_kws={'label': 'Correlation'})
+    ax_corr.tick_params(colors='black')
     st.pyplot(fig_corr)
 
 st.header("🎯 Clustering Analysis")
@@ -205,12 +202,12 @@ else:
         for i in range(1, 11):
             kmeans_elbow = KMeans(n_clusters=i, init='k-means++', random_state=random_seed, n_init=10).fit(X_scaled)
             wcss.append(kmeans_elbow.inertia_)
-        fig_elbow, ax_elbow = plt.subplots(facecolor='#F0F2F6') # UI CHANGE
-        ax_elbow.set_facecolor('#F0F2F6') # UI CHANGE
-        sns.lineplot(x=range(1, 11), y=wcss, marker='o', ax=ax_elbow, color='#0068C9') # UI CHANGE
-        ax_elbow.tick_params(colors='black', which='both') # UI CHANGE
-        ax_elbow.set_xlabel('Number of Clusters (K)', color='black') # UI CHANGE
-        ax_elbow.set_ylabel('WCSS (Distortion Score)', color='black') # UI CHANGE
+        fig_elbow, ax_elbow = plt.subplots(facecolor='#F0F2F6')
+        ax_elbow.set_facecolor('#F0F2F6')
+        sns.lineplot(x=range(1, 11), y=wcss, marker='o', ax=ax_elbow, color='#0068C9')
+        ax_elbow.tick_params(colors='black', which='both')
+        ax_elbow.set_xlabel('Number of Clusters (K)', color='black')
+        ax_elbow.set_ylabel('WCSS (Distortion Score)', color='black')
         st.pyplot(fig_elbow)
 
     kmeans = KMeans(n_clusters=k_value, init='k-means++', random_state=random_seed, n_init=10)
@@ -220,25 +217,25 @@ else:
     hover_data = ['Age', 'Annual_Income_Lakhs', 'Spending_Score', 'Cluster']
     if len(features_to_cluster) == 2:
         fig_clusters = px.scatter(df, x=features_to_cluster[0], y=features_to_cluster[1], color='Cluster',
-                                  color_continuous_scale='Blues', title='2D Customer Segments', # UI CHANGE
-                                  hover_data=hover_data, template='plotly_white') # UI CHANGE
+                                  color_continuous_scale='Blues', title='2D Customer Segments',
+                                  hover_data=hover_data, template='plotly_white')
     elif len(features_to_cluster) == 3:
         fig_clusters = px.scatter_3d(df, x=features_to_cluster[0], y=features_to_cluster[1], z=features_to_cluster[2],
-                                     color='Cluster', color_continuous_scale='Blues', # UI CHANGE
-                                     title='3D Customer Segments', hover_data=hover_data, template='plotly_white') # UI CHANGE
+                                     color='Cluster', color_continuous_scale='Blues',
+                                     title='3D Customer Segments', hover_data=hover_data, template='plotly_white')
     st.plotly_chart(fig_clusters, use_container_width=True)
 
-    # --- RESTRUCTURED ANALYSIS SECTION ---
+    # --- CORRECTED ANALYSIS SECTION ---
     st.subheader("In-Depth Cluster Details")
-    with st.expander("👤 Cluster Profiles (Averages)"):
+    with st.expander("Cluster Profiles (Averages)"):
         cluster_summary = df.groupby('Cluster')[features_to_cluster].mean().round(2)
         st.dataframe(cluster_summary, use_container_width=True)
-    with st.expander("📈 Feature Distribution by Cluster"):
+    with st.expander("Feature Distribution by Cluster"):
         for feature in features_to_cluster:
             fig_dist = px.box(df, x='Cluster', y=feature, color='Cluster', color_discrete_sequence=px.colors.qualitative.T10,
-                              template='plotly_white', title=f'Distribution of {feature} by Cluster') # UI CHANGE
+                              template='plotly_white', title=f'Distribution of {feature} by Cluster')
             st.plotly_chart(fig_dist, use_container_width=True)
-    with st.expander("🗒️ View Segmented Data"):
+    with st.expander("View Segmented Data"):
         st.dataframe(df, use_container_width=True)
 
     # --- ADVANCED ANALYSIS DISPLAY (controlled by sidebar buttons) ---
